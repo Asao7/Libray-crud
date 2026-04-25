@@ -370,3 +370,29 @@ button[type="submit"]:active, .btn-primary:active {
   margin-bottom: 16px;
   animation: aparecer 0.3s ease;
 }
+
+/* ── SELECTOR DE ESTRELLAS ── */
+.estrellas {
+  display: flex;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.estrella {
+  font-size: 28px;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.15s, transform 0.12s;
+  user-select: none;
+  line-height: 1;
+}
+
+.estrella:hover,
+.estrella.activa {
+  color: #f4c430;
+  transform: scale(1.15);
+}
+
+.estrellas-mostrar {
+  margin: 6px 0;
+}

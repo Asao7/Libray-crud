@@ -12,17 +12,49 @@ const buscar = document.getElementById("buscar");
 const titulo = document.getElementById("titulo");
 const autor = document.getElementById("autor");
 const estado = document.getElementById("estado");
-const calificacion = document.getElementById("calificacion");
+const calificacionInput = document.getElementById("calificacion");
 const submitBtn = form.querySelector("button[type='submit']");
 
 let libros = [];
 let editandoId = null;
 
-// Header con token para todas las peticiones
 const authHeaders = {
   "Content-Type": "application/json",
   "Authorization": "Bearer " + token
 };
+
+// =====================
+// ESTRELLAS
+// =====================
+const estrellas = document.querySelectorAll(".estrella");
+
+estrellas.forEach(estrella => {
+  estrella.addEventListener("click", () => {
+    const valor = parseInt(estrella.dataset.valor);
+    calificacionInput.value = valor;
+    actualizarEstrellas(valor);
+  });
+
+  estrella.addEventListener("mouseover", () => {
+    const valor = parseInt(estrella.dataset.valor);
+    actualizarEstrellas(valor);
+  });
+
+  estrella.addEventListener("mouseout", () => {
+    actualizarEstrellas(parseInt(calificacionInput.value) || 0);
+  });
+});
+
+function actualizarEstrellas(valor) {
+  estrellas.forEach(e => {
+    e.classList.toggle("activa", parseInt(e.dataset.valor) <= valor);
+  });
+}
+
+function resetEstrellas() {
+  calificacionInput.value = 0;
+  actualizarEstrellas(0);
+}
 
 // =====================
 // CARGAR LIBROS
@@ -54,18 +86,27 @@ function mostrarLibros(data) {
   }
 
   data.forEach(libro => {
+    const estrellasMostrar = generarEstrellasMostrar(libro.calificacion);
     const div = document.createElement("div");
     div.innerHTML = `
       <h3>${libro.titulo}</h3>
       <p>${libro.autor}</p>
       <p>${libro.estado}</p>
-      <p>⭐ ${libro.calificacion}</p>
+      <div class="estrellas-mostrar">${estrellasMostrar}</div>
       <button class="btn-ver" onclick="verLibro('${libro._id}')">Ver libro</button>
       <button class="btn-editar" onclick="editarLibro('${libro._id}')">Editar</button>
       <button class="eliminar" onclick="eliminarLibro('${libro._id}')">Eliminar</button>
     `;
     lista.appendChild(div);
   });
+}
+
+function generarEstrellasMostrar(cal) {
+  let html = "";
+  for (let i = 1; i <= 5; i++) {
+    html += `<span style="color:${i <= cal ? "#f4c430" : "#ddd"}; font-size:16px;">★</span>`;
+  }
+  return html;
 }
 
 // =====================
@@ -78,7 +119,7 @@ form.addEventListener("submit", async (e) => {
     titulo: titulo.value,
     autor: autor.value,
     estado: estado.value,
-    calificacion: calificacion.value
+    calificacion: parseInt(calificacionInput.value) || 0
   };
 
   if (editandoId) {
@@ -97,6 +138,7 @@ form.addEventListener("submit", async (e) => {
     });
     mostrarNotificacion("✔ Libro agregado correctamente");
     form.reset();
+    resetEstrellas();
   }
 
   cargarLibros();
@@ -112,7 +154,8 @@ function editarLibro(id) {
   titulo.value = libro.titulo;
   autor.value = libro.autor;
   estado.value = libro.estado;
-  calificacion.value = libro.calificacion;
+  calificacionInput.value = libro.calificacion;
+  actualizarEstrellas(libro.calificacion);
 
   editandoId = id;
   submitBtn.textContent = "Actualizar libro";
@@ -127,6 +170,7 @@ function editarLibro(id) {
 function cancelarEdicion() {
   editandoId = null;
   form.reset();
+  resetEstrellas();
   submitBtn.textContent = "Agregar libro";
   submitBtn.style.background = "";
   document.getElementById("btnCancelar").style.display = "none";
@@ -137,12 +181,10 @@ function cancelarEdicion() {
 // =====================
 async function eliminarLibro(id) {
   if (!confirm("¿Seguro que quieres eliminar este libro?")) return;
-
   await fetch("/libros/" + id, {
     method: "DELETE",
     headers: { "Authorization": "Bearer " + token }
   });
-
   cargarLibros();
 }
 
