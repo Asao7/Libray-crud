@@ -41,7 +41,13 @@ const LibroSchema = new mongoose.Schema({
     default: ""
   },
 
-  resenas: [ResenaSchema]
+  resenas: [ResenaSchema],
+
+  usuario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Usuario",
+    required: true
+  }
 
 }, {
   timestamps: true

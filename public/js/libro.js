@@ -1,5 +1,15 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/html/login.html";
+}
+
+const authHeaders = {
+  "Content-Type": "application/json",
+  "Authorization": "Bearer " + token
+};
 
 let libroActual = null;
 
@@ -7,7 +17,9 @@ let libroActual = null;
 // CARGAR LIBRO
 // ======================
 async function cargarLibro() {
-  const res = await fetch("/libros/" + id);
+  const res = await fetch("/libros/" + id, {
+    headers: { "Authorization": "Bearer " + token }
+  });
 
   if (!res.ok) {
     alert("Error cargando libro");
@@ -58,9 +70,7 @@ async function agregarResena() {
   try {
     const res = await fetch("/libros/" + id + "/resenas", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: authHeaders,
       body: JSON.stringify({ texto })
     });
 
@@ -69,11 +79,8 @@ async function agregarResena() {
     }
 
     const data = await res.json();
-
     libroActual = data;
-
     renderResenas();
-
     document.getElementById("reseñaInput").value = "";
 
   } catch (error) {
@@ -89,5 +96,4 @@ function volver() {
   window.location.href = "/html/biblioteca.html";
 }
 
-// INICIAR
 cargarLibro();
