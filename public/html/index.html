@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Biblioteca Personal</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<!-- VISTA BIBLIOTECA -->
+<div id="vistaBiblioteca">
+
+  <h1>📚 Biblioteca Personal</h1>
+
+  <input id="buscar" placeholder="Buscar libro...">
+
+  <form id="formLibro">
+
+    <input id="titulo" placeholder="Título del libro" required>
+    <input id="autor" placeholder="Autor" required>
+
+    <select id="estado">
+      <option>Pendiente</option>
+      <option>Leyendo</option>
+      <option>Leído</option>
+    </select>
+
+    <input id="calificacion" type="number" min="1" max="5">
+
+    <button type="submit">Agregar Libro</button>
+
+  </form>
+
+  <h2 id="contador"></h2>
+
+  <div id="listaLibros"></div>
+
+</div>
+
+<!-- VISTA LIBRO -->
+<div id="vistaLibro" style="display:none">
+
+  <button onclick="volverBiblioteca()">⬅ Volver</button>
+
+  <h1 id="tituloLibro"></h1>
+  <p id="autorLibro"></p>
+
+  <h2>📝 Reseñas</h2>
+
+  <textarea id="reseñaInput" placeholder="Escribe una reseña"></textarea>
+
+  <button onclick="agregarResena()">Agregar reseña</button>
+
+  <div id="listaReseñas"></div>
+
+</div>
+
+<!-- JS -->
+<script src="/js/biblioteca.js"></script>
+<script src="/js/libro.js"></script>
+
+</body>
+</html>

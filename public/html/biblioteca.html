@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Biblioteca</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <button class="btn-ghost" onclick="window.location.href='/html/explorar.html'">
+      🌍 Explorar libros online
+    </button>
+    <button class="btn-ghost danger" onclick="logout()">
+      Cerrar sesión
+    </button>
+  </div>
+
+  <div class="container">
+
+    <h1>📚 MineBooks</h1>
+
+    <div id="notificacion"></div>
+
+    <input type="text" id="buscar" placeholder="Buscar libro...">
+
+    <form id="formLibro">
+      <label>Título</label>
+      <input id="titulo" required>
+
+      <label>Autor</label>
+      <input id="autor" required>
+
+      <label>Estado</label>
+      <select id="estado">
+        <option>Leído</option>
+        <option>En proceso</option>
+        <option>Pendiente</option>
+      </select>
+
+      <label>Calificación</label>
+      <input id="calificacion" type="number" min="1" max="5">
+
+      <button type="submit">Agregar libro</button>
+
+      <button type="button" id="btnCancelar" onclick="cancelarEdicion()" style="display:none;">
+        Cancelar edición
+      </button>
+    </form>
+
+    <h3 id="contador"></h3>
+
+    <div id="listaLibros"></div>
+
+  </div>
+
+  <script src="/js/biblioteca.js"></script>
+</body>
+</html>

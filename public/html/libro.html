@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Libro</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/libro.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>📖 Detalle del Libro</h1>
+
+    <!-- INFO DEL LIBRO -->
+    <h2 id="tituloLibro"></h2>
+    <p id="autorLibro"></p>
+
+    <p id="descripcionLibro"></p>
+
+    <h3 id="calificacionLibro"></h3>
+
+    <hr>
+
+    <!-- RESEÑAS -->
+    <h2>📝 Reseñas</h2>
+
+    <textarea id="reseñaInput" placeholder="Escribe una reseña..."></textarea>
+
+    <button onclick="agregarResena()">
+      Agregar reseña
+    </button>
+
+    <div id="listaReseñas"></div>
+
+    <br>
+
+    <button onclick="volver()">
+      ⬅ Volver
+    </button>
+
+  </div>
+
+  <!-- JS -->
+  <script src="/js/libro.js"></script>
+
+</body>
+</html>
