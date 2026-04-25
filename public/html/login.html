@@ -2,24 +2,33 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
-
-  <!-- CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MineBooks — Login</title>
   <link rel="stylesheet" href="/css/login.css">
 </head>
-
 <body>
 
   <div class="container">
 
-    <h1>🔐 Iniciar Sesión</h1>
+    <div class="logo">
+      <span class="logo-icon">📚</span>
+      <h1>MineBooks</h1>
+      <p class="logo-sub">Tu biblioteca personal</p>
+    </div>
 
-    <input id="email" type="email" placeholder="Correo electrónico">
-    <input id="password" type="password" placeholder="Contraseña">
+    <div class="input-group">
+      <span class="input-icon">✉️</span>
+      <input id="email" type="email" placeholder="Correo electrónico">
+    </div>
+
+    <div class="input-group">
+      <span class="input-icon">🔒</span>
+      <input id="password" type="password" placeholder="Contraseña">
+    </div>
 
     <button onclick="login()">Entrar</button>
 
-    <p style="margin-top:15px;">
+    <p>
       ¿No tienes cuenta?
       <a href="/html/register.html">Regístrate aquí</a>
     </p>
@@ -39,9 +48,7 @@
       try {
         const res = await fetch("/auth/login", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password })
         });
 
@@ -54,9 +61,6 @@
 
         if (data.token) {
           localStorage.setItem("token", data.token);
-
-          alert("Bienvenido " + data.nombre);
-
           window.location.href = "/html/biblioteca.html";
         } else {
           alert("No se recibió token del servidor");
@@ -67,6 +71,11 @@
         alert("Error de conexión con el servidor");
       }
     }
+
+    // Enter para hacer login
+    document.addEventListener("keydown", e => {
+      if (e.key === "Enter") login();
+    });
   </script>
 
 </body>
