@@ -16,8 +16,6 @@ async function cargarLibro() {
     headers: { "Authorization": "Bearer " + token }
   });
 
-  
-
   if (!res.ok) { alert("Error cargando libro"); return; }
 
   libroActual = await res.json();
@@ -25,22 +23,18 @@ async function cargarLibro() {
   document.getElementById("tituloLibro").innerText = libroActual.titulo;
   document.getElementById("autorLibro").innerText = libroActual.autor;
 
-  // Descripcion
   const desc = document.getElementById("descripcionLibro");
   desc.innerText = libroActual.descripcion || "";
   desc.style.display = libroActual.descripcion ? "block" : "none";
 
-  // Estado badge
   const badge = document.getElementById("estadoLibro");
   badge.innerText = libroActual.estado;
   badge.className = "estado-badge estado-" + libroActual.estado;
 
-  // Hero color por estado
   const colores = { "Leído": "#1a3d2b, #0f2d1a", "Pendiente": "#2d1b0a, #1a1200", "En proceso": "#0a1a3d, #0a1530" };
   document.getElementById("bookHero").style.background =
     "linear-gradient(135deg, " + (colores[libroActual.estado] || "#1e2a1a, #2d1b4e") + ")";
 
-  // Estrellas
   const starsEl = document.getElementById("starsLibro");
   starsEl.innerHTML = Array.from({length: 5}, (_, i) =>
     `<span style="color:${i < libroActual.calificacion ? '#c8a96e' : '#2a2a3a'}">★</span>`
@@ -60,7 +54,11 @@ function renderResenas() {
 
   libroActual.resenas.forEach(r => {
     const div = document.createElement("div");
-    div.innerHTML = `💬 ${r.texto}`;
+    div.className = "resena-item";
+    div.innerHTML = `
+      <span class="resena-texto">💬 ${r.texto}</span>
+      <button class="btn-eliminar-resena" onclick="eliminarResena('${r._id}')">✕</button>
+    `;
     cont.appendChild(div);
   });
 }
@@ -75,14 +73,28 @@ async function agregarResena() {
       headers: authHeaders,
       body: JSON.stringify({ texto })
     });
-
     if (!res.ok) throw new Error();
-
     libroActual = await res.json();
     renderResenas();
     document.getElementById("reseñaInput").value = "";
   } catch {
     alert("Error agregando reseña");
+  }
+}
+
+async function eliminarResena(resenaId) {
+  if (!confirm("¿Eliminar esta reseña?")) return;
+
+  try {
+    const res = await fetch("/libros/" + id + "/resenas/" + resenaId, {
+      method: "DELETE",
+      headers: { "Authorization": "Bearer " + token }
+    });
+    if (!res.ok) throw new Error();
+    libroActual = await res.json();
+    renderResenas();
+  } catch {
+    alert("Error eliminando reseña");
   }
 }
 
