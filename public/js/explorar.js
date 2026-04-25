@@ -1,3 +1,5 @@
+const token = localStorage.getItem("token");
+
 function volver() {
   window.location.href = "/html/biblioteca.html";
 }
@@ -18,15 +20,11 @@ async function buscarLibrosOnline() {
 
   try {
     const url = "https://openlibrary.org/search.json?q=" + encodeURIComponent(texto);
-
     const res = await fetch(url);
 
-    if (!res.ok) {
-      throw new Error("Error en la API");
-    }
+    if (!res.ok) throw new Error("Error en la API");
 
     const data = await res.json();
-
     mostrar(data.docs);
 
   } catch (error) {
@@ -56,8 +54,7 @@ function mostrar(libros) {
     div.innerHTML = `
       <h3>${titulo}</h3>
       <p>${autor}</p>
-
-      <button onclick="guardarLibro('${titulo.replace(/'/g, "")}', '${autor.replace(/'/g, "")}')">
+      <button class="btn-agregar" onclick="guardarLibro('${titulo.replace(/'/g, "")}', '${autor.replace(/'/g, "")}')">
         Guardar en mi biblioteca
       </button>
     `;
@@ -74,7 +71,8 @@ async function guardarLibro(titulo, autor) {
     const res = await fetch("/libros", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
       },
       body: JSON.stringify({
         titulo,
@@ -84,9 +82,7 @@ async function guardarLibro(titulo, autor) {
       })
     });
 
-    if (!res.ok) {
-      throw new Error("Error guardando libro");
-    }
+    if (!res.ok) throw new Error("Error guardando libro");
 
     alert("Libro guardado ✔");
 
