@@ -37,7 +37,7 @@ app.get("/biblioteca.html", (req, res) => {
 // RUTA BASE
 // ======================
 app.get("/", (req, res) => {
-  res.send("API Biblioteca funcionando ✔");
+  res.redirect("/html/login.html");
 });
 
 // ======================
