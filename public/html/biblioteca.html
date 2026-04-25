@@ -39,7 +39,14 @@
       </select>
 
       <label>Calificación</label>
-      <input id="calificacion" type="number" min="1" max="5">
+      <div class="estrellas" id="estrellas">
+        <span class="estrella" data-valor="1">★</span>
+        <span class="estrella" data-valor="2">★</span>
+        <span class="estrella" data-valor="3">★</span>
+        <span class="estrella" data-valor="4">★</span>
+        <span class="estrella" data-valor="5">★</span>
+      </div>
+      <input type="hidden" id="calificacion" value="0">
 
       <button type="submit">Agregar libro</button>
 
