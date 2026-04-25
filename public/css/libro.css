@@ -1,196 +1,265 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap');
 
 :root {
-  --green-dark:   #1e6b2e;
-  --green-mid:    #2e8b3a;
-  --green-light:  #3aab49;
-  --surface:      #ffffff;
-  --surface-alt:  #f6f7f5;
-  --border:       #e2e5e0;
-  --text-primary: #1a2118;
-  --text-muted:   #6b7a66;
-  --radius-sm:    8px;
-  --radius-md:    12px;
-  --radius-lg:    16px;
-  --shadow-lg:    0 8px 32px rgba(0,0,0,0.14);
+  --bg-card:      rgba(15, 17, 23, 0.88);
+  --accent:       #c8a96e;
+  --accent-soft:  rgba(200,169,110,0.12);
+  --accent-hover: #d4ba85;
+  --green:        #4ade80;
+  --green-soft:   rgba(74,222,128,0.12);
+  --blue:         #60a5fa;
+  --blue-soft:    rgba(96,165,250,0.12);
+  --border:       rgba(255,255,255,0.10);
+  --text:         #e8e4dc;
+  --text-muted:   rgba(232,228,220,0.55);
+  --text-dim:     #4a4a5a;
+  --radius-sm:    10px;
+  --radius-lg:    22px;
+  --shadow:       0 24px 64px rgba(0,0,0,0.6);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'DM Sans', sans-serif;
-  padding: 40px 16px;
+  font-family: 'Outfit', sans-serif;
+  min-height: 100vh;
+  padding: 32px 16px 60px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   background-image: url("https://static.vecteezy.com/system/resources/previews/032/457/225/large_2x/a-large-bright-library-with-high-bookshelves-and-flying-books-generated-by-artificial-intelligence-free-photo.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  min-height: 100vh;
+  color: var(--text);
 }
 
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: rgba(10, 20, 12, 0.52);
-  z-index: -1;
+  background: rgba(8, 10, 15, 0.62);
+  z-index: 0;
 }
 
-.container {
-  width: 620px;
-  max-width: 100%;
-  background: var(--surface);
-  padding: 36px 32px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+/* todo sobre el overlay */
+.btn-volver, .container {
+  position: relative;
+  z-index: 1;
 }
 
-h1 {
-  font-family: 'Lora', serif;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 20px;
-  font-weight: 400;
-  margin-bottom: 24px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-#tituloLibro {
-  font-family: 'Lora', serif;
-  font-size: 30px;
-  font-weight: 700;
-  color: var(--text-primary);
-  text-align: center;
-  margin-bottom: 6px;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-}
-
-#autorLibro {
-  font-size: 16px;
-  color: var(--text-muted);
-  text-align: center;
-  margin-bottom: 12px;
-  font-style: italic;
-}
-
-#descripcionLibro {
-  font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.65;
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-#estadoLibro {
-  display: inline-block;
-  padding: 5px 14px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  background: #d0e9ff;
-  color: #0c4f8a;
-  margin-bottom: 10px;
-}
-
-#calificacionLibro {
-  font-size: 18px;
-  color: #d4a017;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-hr {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 20px 0;
-}
-
-h2 {
-  font-family: 'Lora', serif;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 14px;
-}
-
-textarea {
-  width: 100%;
-  height: 90px;
-  padding: 12px 14px;
-  margin-top: 6px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  color: var(--text-primary);
-  background: var(--surface-alt);
-  resize: vertical;
-  outline: none;
-  transition: border-color 0.18s, box-shadow 0.18s;
-}
-
-textarea:focus {
-  border-color: var(--green-mid);
-  background: white;
-  box-shadow: 0 0 0 3px rgba(46,139,58,0.12);
-}
-
-/* Botón principal (Agregar reseña) */
-button {
-  background: linear-gradient(135deg, var(--green-light) 0%, var(--green-dark) 100%);
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: var(--radius-sm);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 10px;
-  width: 100%;
-  box-shadow: 0 2px 8px rgba(30,107,46,0.28), inset 0 1px 0 rgba(255,255,255,0.15);
-  transition: all 0.18s ease;
-}
-
-button:hover {
-  background: linear-gradient(135deg, #44c456 0%, #237030 100%);
-  box-shadow: 0 5px 18px rgba(30,107,46,0.36);
-  transform: translateY(-1px);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-/* Botón Volver — estilo outline */
+/* ── VOLVER ── */
 .btn-volver {
-  background: transparent;
-  color: var(--text-muted);
-  border: 1.5px solid var(--border);
-  box-shadow: none;
+  align-self: flex-start;
+  margin-bottom: 20px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s;
+  width: auto;
+  max-width: 680px;
+  align-self: flex-start;
 }
 
 .btn-volver:hover {
-  background: var(--surface-alt);
-  border-color: #bcc4b8;
-  color: var(--text-primary);
+  background: rgba(255,255,255,0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateX(-2px);
   box-shadow: none;
+}
+
+/* ── CONTAINER ── */
+.container {
+  width: 100%;
+  max-width: 680px;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.4s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── HERO ── */
+.book-hero {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-hero-icon { font-size: 60px; }
+
+/* ── INFO ── */
+.book-info {
+  padding: 28px 36px 24px;
+  text-align: center;
+}
+
+.book-info h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.autor {
+  font-size: 15px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.estado-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.estado-Leído        { background: var(--green-soft); color: var(--green); }
+.estado-Pendiente    { background: var(--accent-soft); color: var(--accent); }
+.estado-En\ proceso  { background: var(--blue-soft); color: var(--blue); }
+
+.stars { display: flex; gap: 3px; }
+.stars span { font-size: 18px; }
+
+.descripcion {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+/* ── RESEÑAS ── */
+.resenas-section {
+  padding: 28px 36px 36px;
+}
+
+.resenas-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.resena-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+textarea {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  resize: vertical;
+  min-height: 90px;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  width: 100%;
+}
+
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(200,169,110,0.10);
+}
+
+textarea::placeholder { color: var(--text-dim); }
+
+button {
+  background: var(--accent);
+  color: #0f1117;
+  border: none;
+  padding: 13px;
+  border-radius: var(--radius-sm);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+  width: 100%;
+  box-shadow: 0 3px 12px rgba(200,169,110,0.25);
+}
+
+button:hover {
+  background: var(--accent-hover);
   transform: translateY(-1px);
+  box-shadow: 0 5px 20px rgba(200,169,110,0.35);
+}
+
+button:active { transform: translateY(0); }
+
+#listaReseñas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 #listaReseñas div {
-  background: var(--surface-alt);
-  padding: 12px 16px;
-  margin-top: 10px;
-  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.04);
   border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
   font-size: 14px;
-  color: var(--text-primary);
+  color: var(--text-muted);
   line-height: 1.6;
+}
+
+#listaReseñas p {
+  color: var(--text-dim);
+  font-size: 14px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  body { padding: 20px 12px 48px; }
+  .book-info { padding: 22px 20px 18px; }
+  .book-info h1 { font-size: 22px; }
+  .resenas-section { padding: 22px 20px 28px; }
 }
