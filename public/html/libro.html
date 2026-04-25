@@ -2,49 +2,50 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Libro</title>
-
-  <!-- CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle del Libro</title>
   <link rel="stylesheet" href="/css/libro.css">
 </head>
-
 <body>
+
+  <button class="btn-volver" onclick="volver()">← Volver</button>
 
   <div class="container">
 
-    <h1>📖 Detalle del Libro</h1>
+    <!-- PORTADA -->
+    <div class="book-hero" id="bookHero">
+      <div class="book-hero-icon">📖</div>
+    </div>
 
-    <!-- INFO DEL LIBRO -->
-    <h2 id="tituloLibro"></h2>
-    <p id="autorLibro"></p>
+    <!-- INFO -->
+    <div class="book-info">
+      <h1 id="tituloLibro"></h1>
+      <p class="autor" id="autorLibro"></p>
 
-    <p id="descripcionLibro"></p>
+      <div class="meta-row">
+        <span class="estado-badge" id="estadoLibro"></span>
+        <div class="stars" id="starsLibro"></div>
+      </div>
 
-    <h3 id="calificacionLibro"></h3>
+      <p class="descripcion" id="descripcionLibro"></p>
+    </div>
 
-    <hr>
+    <hr class="divider">
 
     <!-- RESEÑAS -->
-    <h2>📝 Reseñas</h2>
+    <div class="resenas-section">
+      <h2>📝 Reseñas</h2>
 
-    <textarea id="reseñaInput" placeholder="Escribe una reseña..."></textarea>
+      <div class="resena-form">
+        <textarea id="reseñaInput" placeholder="Escribe tu reseña..."></textarea>
+        <button onclick="agregarResena()">Publicar reseña</button>
+      </div>
 
-    <button onclick="agregarResena()">
-      Agregar reseña
-    </button>
-
-    <div id="listaReseñas"></div>
-
-    <br>
-
-    <button onclick="volver()">
-      ⬅ Volver
-    </button>
+      <div id="listaReseñas"></div>
+    </div>
 
   </div>
 
-  <!-- JS -->
   <script src="/js/libro.js"></script>
-
 </body>
 </html>
