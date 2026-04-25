@@ -2,64 +2,163 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Biblioteca</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MineBooks</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-  <div class="topbar">
-    <button class="btn-ghost" onclick="window.location.href='/html/explorar.html'">
-      🌍 Explorar libros online
-    </button>
-    <button class="btn-ghost danger" onclick="logout()">
-      Cerrar sesión
-    </button>
-  </div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h1>📚 MineBooks</h1>
+      <p>Tu biblioteca personal</p>
+    </div>
 
-  <div class="container">
-
-    <h1>📚 MineBooks</h1>
-
-    <div id="notificacion"></div>
-
-    <input type="text" id="buscar" placeholder="Buscar libro...">
-
-    <form id="formLibro">
-      <label>Título</label>
-      <input id="titulo" required>
-
-      <label>Autor</label>
-      <input id="autor" required>
-
-      <label>Estado</label>
-      <select id="estado">
-        <option>Leído</option>
-        <option>En proceso</option>
-        <option>Pendiente</option>
-      </select>
-
-      <label>Calificación</label>
-      <div class="estrellas" id="estrellas">
-        <span class="estrella" data-valor="1">★</span>
-        <span class="estrella" data-valor="2">★</span>
-        <span class="estrella" data-valor="3">★</span>
-        <span class="estrella" data-valor="4">★</span>
-        <span class="estrella" data-valor="5">★</span>
-      </div>
-      <input type="hidden" id="calificacion" value="0">
-
-      <button type="submit">Agregar libro</button>
-
-      <button type="button" id="btnCancelar" onclick="cancelarEdicion()" style="display:none;">
-        Cancelar edición
+    <nav class="sidebar-nav">
+      <button class="nav-item active" onclick="filtrarEstado('todos')">
+        <span class="icon">🏠</span> Todos los libros
       </button>
-    </form>
+      <button class="nav-item" onclick="filtrarEstado('Leído')">
+        <span class="icon">✅</span> Leídos
+      </button>
+      <button class="nav-item" onclick="filtrarEstado('En proceso')">
+        <span class="icon">📖</span> En proceso
+      </button>
+      <button class="nav-item" onclick="filtrarEstado('Pendiente')">
+        <span class="icon">🕐</span> Pendientes
+      </button>
+      <a class="nav-item" href="/html/explorar.html">
+        <span class="icon">🌍</span> Explorar libros
+      </a>
+    </nav>
 
-    <h3 id="contador"></h3>
+    <div class="sidebar-bottom">
+      <button class="btn-logout" onclick="logout()">
+        <span>🚪</span> Cerrar sesión
+      </button>
+    </div>
+  </aside>
 
-    <div id="listaLibros"></div>
+  <!-- MAIN -->
+  <div class="main">
 
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+      <div class="topbar-search">
+        <span>🔍</span>
+        <input type="text" id="buscar" placeholder="Buscar libro...">
+      </div>
+
+      <div class="topbar-right">
+        <button class="btn-add" onclick="abrirModal()">
+          + Agregar libro
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="content">
+
+      <div class="content-header">
+        <h2 id="seccionTitulo">Mi Biblioteca</h2>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon">📚</div>
+          <div class="stat-info">
+            <p>Total libros</p>
+            <h3 id="statTotal">0</h3>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-info">
+            <p>Leídos</p>
+            <h3 id="statLeidos">0</h3>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📖</div>
+          <div class="stat-info">
+            <p>En proceso</p>
+            <h3 id="statProceso">0</h3>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-info">
+            <p>Calif. promedio</p>
+            <h3 id="statPromedio">0</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIBROS -->
+      <div class="books-grid" id="listaLibros"></div>
+
+    </main>
   </div>
+
+  <!-- MODAL AGREGAR/EDITAR -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitulo">Agregar libro</h2>
+        <button class="modal-close" onclick="cerrarModal()">✕</button>
+      </div>
+
+      <form id="formLibro" onsubmit="submitLibro(event)">
+        <div class="form-group">
+          <label>Título</label>
+          <input id="titulo" placeholder="Ej. Cien años de soledad" required>
+        </div>
+
+        <div class="form-group">
+          <label>Autor</label>
+          <input id="autor" placeholder="Ej. Gabriel García Márquez" required>
+        </div>
+
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea id="descripcion" placeholder="Breve descripción del libro..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Estado</label>
+          <select id="estado">
+            <option>Pendiente</option>
+            <option>En proceso</option>
+            <option>Leído</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Calificación</label>
+          <div class="estrellas" id="estrellas">
+            <span class="estrella" data-valor="1">★</span>
+            <span class="estrella" data-valor="2">★</span>
+            <span class="estrella" data-valor="3">★</span>
+            <span class="estrella" data-valor="4">★</span>
+            <span class="estrella" data-valor="5">★</span>
+          </div>
+          <input type="hidden" id="calificacion" value="0">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel-modal" onclick="cerrarModal()">Cancelar</button>
+          <button type="submit" class="btn-save" id="btnGuardar">Guardar libro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- NOTIFICACION -->
+  <div id="notificacion"></div>
 
   <script src="/js/biblioteca.js"></script>
 </body>
